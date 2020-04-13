@@ -1,34 +1,99 @@
-﻿<h2>Add new instructor</h2>
-<form action="Create" method="post">
-    <table>
-        <tr>
-            <td>
-                <h4>
-                    Teacher Id:
-                </h4>
-                <input type="text" name="id" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h4>
-                    Name:
-                </h4>
-                <input type="text" name="name" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h4>
-                    Department:
-                </h4>
-                <input type="text" name="department" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" />
-            </td>
-        </tr>
-    </table>
-</form>
+﻿@model IEnumerable<InstructorModel>
+
+<body>
+	<table>
+		<tr>
+			<td>
+				<h2>
+					Add new instructor
+				</h2>
+				<form action="Create" method="post">
+					<table>
+						<tr>
+							<td>
+								<div>
+									Teacher ID:
+								</div>
+								<input type="text" name="id" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div>
+									Name:
+								</div>
+								<input type="text" name="name" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div>
+									Department:
+								</div>
+								<input type="text" name="department" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="submit" value="Submit" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h2>Delete instructor</h2>
+				<form action="Delete" method="post">
+					<table>
+						<tr>
+							<td>
+								<duv>
+									Teacher ID:
+								</duv>
+								<input type="text" name="id" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="submit" value="Submit" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<br /><br />
+
+	<h2>
+		Instructors:
+	</h2>
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th>
+					Instructor ID
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Department
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var instructor in Model) {
+				<tr>
+					<td>@instructor.InstructorId</td>
+					<td>@instructor.InstructorName</td>
+					<td>@instructor.Department</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</body>

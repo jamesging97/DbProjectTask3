@@ -11,7 +11,7 @@ namespace DbProject.Controllers {
         }
 
         public IActionResult Index() {
-            return View();
+            return View(_gradeDbContext.Instructor.ToList());
         }
 
         [HttpPost("Create")]
@@ -23,17 +23,21 @@ namespace DbProject.Controllers {
             });
 
             _gradeDbContext.SaveChanges();
-            return Ok($"Successfully added instructor with id {id}");
+            return RedirectToAction("Index");
         }
 
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         public IActionResult DeleteInstructor(string id) {
             var instructor = _gradeDbContext.Instructor.FirstOrDefault(i => i.InstructorId.Equals(id, System.StringComparison.InvariantCultureIgnoreCase));
+
+            if(instructor == null) {
+                return BadRequest($"Cannot delete instructor: {id} does not exist");
+            }
 
             _gradeDbContext.Remove(instructor);
             _gradeDbContext.SaveChanges();
 
-            return Ok($"Successfully removed instructor with id {id}");
+            return RedirectToAction("Index");
         }
     }
 }

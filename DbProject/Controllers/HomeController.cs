@@ -23,12 +23,17 @@ namespace DbProject.Controllers {
 
         [HttpGet]
         [Route("AverageSemesterGPA")]
-        public IActionResult AverageSemesterGPA(string courseIds) {
+        public string AverageSemesterGPA(string courseIds) {
             //Remove all whitespaces and turn input into a list of strings.
+
+            if(courseIds == null) {
+                return "Input cannot be empty";
+            }
+
             var sanitizedCourses = courseIds.Replace(" ", "").Split(",");
 
             if(!sanitizedCourses.Any()) {
-                return BadRequest("Input cannot be empty");
+                return "Input cannot be empty";
             }
 
             var userClassGroups = _gradeDbContext.GradeReceived
@@ -43,20 +48,26 @@ namespace DbProject.Controllers {
                 .ToList();
 
             var averageGPA = userClassGroups.Average(group => group.Average(groupEntry => groupEntry.Grade));
-            
-            return Ok($"Students who took the selected classes earned an average GPA of {averageGPA}");
+
+            ViewData["GPA"] = $"Students who took the selected classes earned an average GPA of {averageGPA}";
+            return $"Students who took the selected classes earned an average GPA of {averageGPA}";
         }
 
         [HttpGet]
         [Route("AverageGradeByInstructor")]
-        public IActionResult AverageGradeByInstructor(string teacherId) {
+        public string AverageGradeByInstructor(string teacherId) {
+
+            if(teacherId == null) {
+                return "teacher id cannot be null";
+            }
+
             var classGrades = from grade in _gradeDbContext.Set<GradeReceivedModel>()
                               join teaches in _gradeDbContext.Set<TeachesModel>() on grade.CourseId equals teaches.CourseId
                               join instructor in _gradeDbContext.Set<InstructorModel>() on teaches.InstructorId equals instructor.InstructorId
                               where instructor.InstructorId == teacherId
                               select grade.Grade;
             var averageClassGrade = classGrades.Average();
-            return Ok($"The average grade for classes taught by {teacherId} is {averageClassGrade}");
+            return $"The average grade for classes taught by {teacherId} is {averageClassGrade}";
         }
     }
 }
