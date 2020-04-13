@@ -1,53 +1,59 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">GPA Statistics Calculator</h1>
+	<h1 class="display-4">GPA Statistics Calculator</h1>
 </div>
 
 <h2>
-    This tool is intended to give you information about the average semester GPA of students who have taken a specific combination of classes.
+	This tool is intended to give you information about the average semester GPA of students who have taken a specific combination of classes.
 </h2>
 
+<br />
+<br />
+
 <h4>
-    <b>
-        Please enter a comma delimited list of course IDs to see the average semester GPA of students who took those courses
-    </b>
+	<b>
+		Please enter a comma delimited list of course IDs to see the average semester GPA of students who took those courses
+	</b>
 </h4>
 
 <form action="AverageSemesterGPA" method="get">
-    <table>
-        <tr>
-            <td>
-                <input type="text" name="courseIds" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" />
-            </td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>
+				<input type="text" name="courseIds" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="Submit" />
+			</td>
+		</tr>
+	</table>
 </form>
 
+<br />
+<br />
+
 <h4>
-    <b>
-        Please enter instructor ID to find their average student's grade
-    </b>
+	<b>
+		Please enter instructor ID to find their average student's grade
+	</b>
 </h4>
 
 <form action="AverageGradeByInstructor" method="get">
-    <table>
-        <tr>
-            <td>
-                <input type="text" name="teacherId" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" />
-            </td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>
+				<input type="text" name="teacherId" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="Submit" />
+			</td>
+		</tr>
+	</table>
 </form>

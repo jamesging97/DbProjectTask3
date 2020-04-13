@@ -26,30 +26,34 @@ namespace DbProject.Controllers {
         public string AverageSemesterGPA(string courseIds) {
             //Remove all whitespaces and turn input into a list of strings.
 
-            if(courseIds == null) {
-                return "Input cannot be empty";
+            if (courseIds == null) {
+                return "Input cannot be null";
             }
 
             var sanitizedCourses = courseIds.Replace(" ", "").Split(",");
 
-            if(!sanitizedCourses.Any()) {
+            if (!sanitizedCourses.Any()) {
                 return "Input cannot be empty";
             }
 
             var userClassGroups = _gradeDbContext.GradeReceived
                 .ToList()
                 .GroupBy(g => new { g.Semester, g.StudentId })
-                .Where(semesterGrouping => { 
-                    foreach(var course in sanitizedCourses) {
-                        if (!semesterGrouping.Any(sg => sg.CourseId.Equals(course, StringComparison.InvariantCultureIgnoreCase))) return false;
+                .Where(semesterGrouping => {
+                    foreach (var course in sanitizedCourses) {
+                        if (!semesterGrouping.Any(sg => sg.CourseId.Equals(course, StringComparison.InvariantCultureIgnoreCase))) {
+                            return false;
+                        }
                     }
                     return true;
                 })
                 .ToList();
 
+            if(!userClassGroups.Any()) {
+                return $"There is no record for the class combination";
+            }
             var averageGPA = userClassGroups.Average(group => group.Average(groupEntry => groupEntry.Grade));
 
-            ViewData["GPA"] = $"Students who took the selected classes earned an average GPA of {averageGPA}";
             return $"Students who took the selected classes earned an average GPA of {averageGPA}";
         }
 
@@ -57,7 +61,7 @@ namespace DbProject.Controllers {
         [Route("AverageGradeByInstructor")]
         public string AverageGradeByInstructor(string teacherId) {
 
-            if(teacherId == null) {
+            if (teacherId == null) {
                 return "teacher id cannot be null";
             }
 
@@ -66,6 +70,10 @@ namespace DbProject.Controllers {
                               join instructor in _gradeDbContext.Set<InstructorModel>() on teaches.InstructorId equals instructor.InstructorId
                               where instructor.InstructorId == teacherId
                               select grade.Grade;
+
+            if (!classGrades.Any()) {
+                return $"{teacherId} has not taught any courses";
+            }
             var averageClassGrade = classGrades.Average();
             return $"The average grade for classes taught by {teacherId} is {averageClassGrade}";
         }
