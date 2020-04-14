@@ -2,6 +2,9 @@
 	ViewData["Title"] = "Home Page";
 }
 
+@model IEnumerable<CourseModel>
+
+
 <div class="text-center">
 	<h1 class="display-4">GPA Statistics Calculator</h1>
 </div>
@@ -57,3 +60,34 @@
 		</tr>
 	</table>
 </form>
+
+<br />
+<br />
+
+<h2>
+	Courses:
+</h2>
+<table class="table">
+	<thead class="thead-dark">
+		<tr>
+			<th>
+				Course ID
+			</th>
+			<th>
+				Title
+			</th>
+			<th>
+				Credit Hours
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var course in Model) {
+			<tr>
+				<td>@course.CourseId</td>
+				<td>@course.Title</td>
+				<td>@course.CreditHours</td>
+			</tr>
+		}
+	</tbody>
+</table>
