@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TeachesModel>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <h2>
+                    Add new teaches
+                </h2>
+                <form action="CreateTeaches" method="post">
+                    <table>
+                        <tr>
+                            <td>
+                                <div>
+                                    Course ID:
+                                </div>
+                                <input type="text" name="cid" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    Instructor ID:
+                                </div>
+                                <input type="text" name="iid" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    Semester:
+                                </div>
+                                <input type="text" name="semester" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>Delete teaches</h2>
+                <form action="DeleteTeaches" method="post">
+                    <table>
+                        <tr>
+                            <td>
+                                <duv>
+                                    Course ID:
+                                </duv>
+                                <input type="text" name="cid" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <br /><br />
+
+    <h2>
+        Courses:
+    </h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    Course ID
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Semester
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var teaches in Model)
+            {
+                <tr>
+                    <td>@teaches.CourseId</td>
+                    <td>@teaches.InstructorId</td>
+                    <td>@teaches.Semester</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>

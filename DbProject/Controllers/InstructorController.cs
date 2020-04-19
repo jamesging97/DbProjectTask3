@@ -16,14 +16,23 @@ namespace DbProject.Controllers {
 
         [HttpPost("Create")]
         public IActionResult CreateInstructor(string id, string name, string department) {
-            _gradeDbContext.Add(new InstructorModel {
-                InstructorId = id,
-                InstructorName = name,
-                Department = department
-            });
+            //check if primary key is already exists
+            var key = _gradeDbContext.Instructor.FirstOrDefault(i => i.InstructorId.Equals(id, System.StringComparison.InvariantCultureIgnoreCase));
+            if (key == null)
+            {
+                _gradeDbContext.Add(new InstructorModel
+                {
+                    InstructorId = id,
+                    InstructorName = name,
+                    Department = department
+                });
 
-            _gradeDbContext.SaveChanges();
-            return RedirectToAction("Index");
+                _gradeDbContext.SaveChanges();
+                _gradeDbContext.Dispose();
+                return RedirectToAction("Index");
+            }
+            else
+                return BadRequest($"Cannot insert instructor: {id} already exists");
         }
 
         [HttpPost("Delete")]
@@ -36,7 +45,7 @@ namespace DbProject.Controllers {
 
             _gradeDbContext.Remove(instructor);
             _gradeDbContext.SaveChanges();
-
+            _gradeDbContext.Dispose();
             return RedirectToAction("Index");
         }
     }
