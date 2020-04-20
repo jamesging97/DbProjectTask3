@@ -27,9 +27,9 @@ namespace DbProject.Controllers
             var instKey = _gradeDbContext.Instructor.FirstOrDefault(i => i.InstructorId.Equals(iid, System.StringComparison.InvariantCultureIgnoreCase));
 
             //We need the courseid NOT TO BE in teaches table --> cidkey
-            //We need the courseid to BE in course table      --> courseKey
+            //We need the courseid to BE in course table      --> courseKeyz
             //We need the instructorId to be in instr table   --> instKey
-            if (cidkey == null || courseKey != null || instKey != null)
+            if (cidkey == null && courseKey != null && instKey != null)
             {
                 _gradeDbContext.Add(new TeachesModel
                 {
@@ -43,7 +43,7 @@ namespace DbProject.Controllers
                 return RedirectToAction("Index");
             }
             else
-                return BadRequest($"Cannot insert teaches:{cid} already exists or instructor id {iid} is not created!");
+                return BadRequest($"Cannot insert teaches:{cid} already exists, instructor id {iid} or course id {cid} is not created!");
         }
 
 
